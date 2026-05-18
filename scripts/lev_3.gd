@@ -17,14 +17,23 @@ func _ready():
 	var sq = preload("res://square.tscn").instantiate()
 	sq.name = "Pezzo_Base"
 	sq.position = Vector2(150, 450)
-	sq.modulate = Color.MEDIUM_SLATE_BLUE # Viola/Blu
-	sq.set_meta("forma", "quadrato")      # Etichetta per il controllo vittoria
+	sq.modulate = Color.MEDIUM_SLATE_BLUE
+	sq.set_meta("forma", "quadrato")
 	add_child(sq)
 
-	spawn_triangolo("Pezzo_T1", Vector2(850, 150), Color.CORAL, 0)      # Arancio acceso
-	spawn_triangolo("Pezzo_T2", Vector2(1050, 150), Color.CHARTREUSE, 0) # Verde acido
-	spawn_triangolo("Pezzo_T3", Vector2(950, 300), Color.AQUA, 180)    # Azzurro (Capovolto)
-	spawn_triangolo("Pezzo_T4", Vector2(950, 500), Color.HOT_PINK, 0)   # Rosa acceso
+	# Spawniamo i triangoli con le rotazioni iniziali per T1 e T4
+	spawn_triangolo("Pezzo_T1", Vector2(850, 150), Color.CORAL, 90)
+	spawn_triangolo("Pezzo_T2", Vector2(1050, 150), Color.CHARTREUSE, 0)
+	spawn_triangolo("Pezzo_T3", Vector2(950, 300), Color.AQUA, 90)
+	spawn_triangolo("Pezzo_T4", Vector2(950, 500), Color.HOT_PINK, 90)
+
+	# --- SUGGERIMENTO (TIP) A SCHERMO ---
+	var tip = Label.new()
+	tip.text = "Right-click on a piece to rotate it"
+	tip.add_theme_font_size_override("font_size", 22)
+	tip.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0, 0.6))
+	tip.position = Vector2(900, 660) 
+	add_child(tip)
 
 func spawn_triangolo(nome, pos, colore, rot):
 	var tr = Area2D.new()

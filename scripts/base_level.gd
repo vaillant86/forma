@@ -3,20 +3,20 @@ extends Node2D
 var gioco_attivo = false
 var raggio_calamita = 80.0
 
-# Variabili della griglia che si autocalcoleranno
 var grid_step = 75.0
 var grid_offset_x = 0.0
 var grid_offset_y = 0.0
 var griglia_calcolata = false
 
 func _ready():
-	$UI/LabelVittoria.hide()
-	$UI/BtnProssimoLivello.hide()
+	# Lasciamo vuoto questo blocco perché i file dei livelli (lev_1.gd, ecc.) lo sovrascrivono!
+	pass
 
 func _process(_delta):
-	# Al primo fotogramma utile, autocalcola la griglia perfetta
+	# Al primissimo fotogramma, calcoliamo la griglia E aggiorniamo l'interfaccia in sicurezza
 	if not griglia_calcolata:
 		calcola_griglia_automatica()
+		imposta_interfaccia()
 		gioco_attivo = true
 		return
 		
@@ -26,11 +26,21 @@ func _process(_delta):
 	if controlla_vittoria():
 		gestisci_vittoria()
 
+func imposta_interfaccia():
+	# Questa funzione viene chiamata in sicurezza dal _process() al primo fotogramma
+	$UI/LabelVittoria.hide()
+	$UI/BtnProssimoLivello.hide()
+	
+	var nome_file = scene_file_path.get_file().get_basename()
+	if "_" in nome_file:
+		$UI/BtnLevel.text = "LEVEL " + nome_file.split("_")[1]
+	else:
+		$UI/BtnLevel.text = "LEVEL " + nome_file
+
 func calcola_griglia_automatica():
 	var sagoma = null
 	var primo_pezzo = null
 	
-	# Trova la sagoma e un pezzo qualsiasi per capire la scala
 	for n in get_children():
 		if n is Polygon2D and not n.name.begins_with("Pezzo"):
 			sagoma = n
@@ -38,18 +48,17 @@ func calcola_griglia_automatica():
 			primo_pezzo = n
 			
 	if sagoma != null and primo_pezzo != null:
-		# Risoluzione raddoppiata! 50 pixel per scala 1.0, e 37.5 per scala 0.75.
-		# Questo permette ai triangoli di incastrarsi perfetti a "mezzo blocco".
 		grid_step = 50.0 * primo_pezzo.scale.x
 		
-		# Trova il punto d'origine esatto della sagoma
 		var min_x = 99999.0
 		var min_y = 99999.0
+		var trans = sagoma.get_global_transform()
+		
 		for pt in sagoma.polygon:
-			if pt.x < min_x: min_x = pt.x
-			if pt.y < min_y: min_y = pt.y
+			var global_pt = trans * pt
+			if global_pt.x < min_x: min_x = global_pt.x
+			if global_pt.y < min_y: min_y = global_pt.y
 			
-		# Allinea matematicamente la griglia ai bordi della sagoma (es. pixel 376)
 		grid_offset_x = fmod(min_x, grid_step)
 		grid_offset_y = fmod(min_y, grid_step)
 		
@@ -69,8 +78,13 @@ func controlla_vittoria() -> bool:
 			sagoma = n
 			break
 			
-	if sagoma == null or pezzi.is_empty(): 
+	if sagoma == null or pezzi.is_empty():
 		return false
+		
+	var sagoma_global_poly = PackedVector2Array()
+	var trans_sagoma = sagoma.get_global_transform()
+	for pt in sagoma.polygon:
+		sagoma_global_poly.append(trans_sagoma * pt)
 	
 	var poligoni_pezzi = []
 	for pezzo in pezzi:
@@ -90,7 +104,7 @@ func controlla_vittoria() -> bool:
 	if poligoni_pezzi.size() < pezzi.size():
 		return false
 			
-	var rimanenza_sagoma = [sagoma.polygon]
+	var rimanenza_sagoma = [sagoma_global_poly]
 	for poly_p in poligoni_pezzi:
 		var nuova_rimanenza = []
 		for r_poly in rimanenza_sagoma:
@@ -103,7 +117,7 @@ func controlla_vittoria() -> bool:
 		
 	var area_fuori = 0.0
 	for poly_p in poligoni_pezzi:
-		var pezzi_fuori = Geometry2D.clip_polygons(poly_p, sagoma.polygon)
+		var pezzi_fuori = Geometry2D.clip_polygons(poly_p, sagoma_global_poly)
 		for p_fuori in pezzi_fuori:
 			area_fuori += calcola_area(p_fuori)
 

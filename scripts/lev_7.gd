@@ -13,12 +13,12 @@ func _ready():
 	add_child(sagoma)
 
 	# Spawn dei pezzi
-	spawn_l_shape("Pezzo_L", Vector2(150, 450), Color.ORANGE)
-	spawn_quadrato("Pezzo_Q", Vector2(1000, 350), Color.CRIMSON)
-	spawn_triangolo("Pezzo_T1", Vector2(150, 150), Color.DARK_TURQUOISE, 0)
-	spawn_triangolo("Pezzo_T2", Vector2(150, 250), Color.AQUA, 0)
-	spawn_triangolo("Pezzo_T3", Vector2(1000, 150), Color.HOT_PINK, 180)
-	spawn_triangolo("Pezzo_T4", Vector2(1000, 250), Color.VIOLET, 180)
+	spawn_l_shape("Pezzo_L", Vector2(150, 350), Color.ORANGE)
+	spawn_quadrato("Pezzo_Q", Vector2(1000, 550), Color.CRIMSON)
+	spawn_triangolo("Pezzo_T1", Vector2(150, 550), Color.DARK_TURQUOISE, 270)
+	spawn_triangolo("Pezzo_T2", Vector2(850, 100), Color.AQUA, 90)
+	spawn_triangolo("Pezzo_T3", Vector2(1000, 150), Color.HOT_PINK, 0)
+	spawn_triangolo("Pezzo_T4", Vector2(1100, 350), Color.VIOLET, 180)
 
 # --- FUNZIONI DI SPAWN ---
 func spawn_quadrato(nome, pos, colore):

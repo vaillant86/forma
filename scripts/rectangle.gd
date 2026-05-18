@@ -31,8 +31,9 @@ func _input_event(_viewport, event, _shape_idx):
 			
 		# TASTO DESTRO: Ruota di 90° a destra
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			# Ruota il pezzo di 90 gradi mantenendo l'angolo tra 0 e 360
-			rotation_degrees = wrapf(rotation_degrees + 90.0, 0.0, 360.0)
+			rotation_degrees += 90.0
+			# Arrotonda matematicamente per evitare micro-errori decimali!
+			rotation_degrees = round(rotation_degrees / 90.0) * 90.0
 			
 			# Ricalcola la presa se stiamo ruotando il pezzo a mezz'aria
 			if trascinamento:
@@ -68,4 +69,3 @@ func applica_calamita():
 	
 	var tween = create_tween()
 	tween.tween_property(self, "global_position", Vector2(target_x, target_y), 0.1).set_trans(Tween.TRANS_SINE)
-

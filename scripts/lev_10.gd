@@ -11,10 +11,10 @@ func _ready():
 	add_child(sagoma)
 
 	# Spawn dei pezzi
-	spawn_l_shape("Pezzo_L1", Vector2(150, 300), Color.ORANGE)
-	spawn_l_shape("Pezzo_L2", Vector2(1050, 300), Color.DARK_ORANGE)
-	spawn_rettangolo("Pezzo_Rect1", Vector2(250, 150), Color.DARK_TURQUOISE)
-	spawn_rettangolo("Pezzo_Rect2", Vector2(1000, 500), Color.TEAL)
+	spawn_l_shape("Pezzo_L1", Vector2(100, 200), Color.ORANGE, 90)
+	spawn_l_shape("Pezzo_L2", Vector2(1050, 450), Color.DARK_ORANGE)
+	spawn_rettangolo("Pezzo_Rect1", Vector2(500, 650), Color.DARK_TURQUOISE, 90)
+	spawn_rettangolo("Pezzo_Rect2", Vector2(1000, 650), Color.TEAL, 90)
 	spawn_quadrato("Pezzo_Q1", Vector2(150, 550), Color.CRIMSON)
 	spawn_quadrato("Pezzo_Q2", Vector2(1050, 100), Color.MEDIUM_PURPLE)
 
@@ -28,22 +28,24 @@ func spawn_quadrato(nome, pos, colore):
 	p.set_meta("forma", "quadrato")
 	add_child(p)
 
-func spawn_rettangolo(nome, pos, colore):
+func spawn_rettangolo(nome, pos, colore, rot = 0.0):
 	var pezzo = Area2D.new()
 	pezzo.set_script(load("res://scripts/rectangle.gd"))
 	pezzo.name = nome
 	pezzo.position = pos
 	pezzo.modulate = colore
+	pezzo.rotation_degrees = rot
 	pezzo.scale = Vector2(0.75, 0.75)
 	pezzo.set_meta("forma", "rettangolo")
 	add_child(pezzo)
 
-func spawn_l_shape(nome, pos, colore):
+func spawn_l_shape(nome, pos, colore, rot = 0.0):
 	var pezzo = Area2D.new()
 	pezzo.set_script(load("res://scripts/l_shape.gd"))
 	pezzo.name = nome
 	pezzo.position = pos
 	pezzo.modulate = colore
+	pezzo.rotation_degrees = rot
 	pezzo.scale = Vector2(0.75, 0.75)
 	pezzo.set_meta("forma", "l_shape")
 	add_child(pezzo)
