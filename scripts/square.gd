@@ -6,6 +6,9 @@ var trascinamento = false
 var scarto_mouse = Vector2.ZERO
 var raggio_pezzo = 50
 
+func _ready():
+	modulate = Color(0.30, 0.30, 0.30) # GRIGIO SCURO
+
 func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed and pezzo_attivo == null:
@@ -32,13 +35,11 @@ func _process(_delta):
 
 func applica_calamita():
 	var livello = get_parent()
-	
-	# Fallback nel caso il pezzo sia fuori dal livello
+
 	var step = 75.0
 	var off_x = 51.0 
 	var off_y = 24.0 
-	
-	# Legge dinamicamente la griglia impostata dal livello!
+
 	if "grid_step" in livello:
 		step = livello.grid_step
 		off_x = livello.grid_offset_x

@@ -9,11 +9,9 @@ var grid_offset_y = 0.0
 var griglia_calcolata = false
 
 func _ready():
-	# Lasciamo vuoto questo blocco perché i file dei livelli (lev_1.gd, ecc.) lo sovrascrivono!
 	pass
 
 func _process(_delta):
-	# Al primissimo fotogramma, calcoliamo la griglia E aggiorniamo l'interfaccia in sicurezza
 	if not griglia_calcolata:
 		calcola_griglia_automatica()
 		imposta_interfaccia()
@@ -27,7 +25,6 @@ func _process(_delta):
 		gestisci_vittoria()
 
 func imposta_interfaccia():
-	# Questa funzione viene chiamata in sicurezza dal _process() al primo fotogramma
 	$UI/LabelVittoria.hide()
 	$UI/BtnProssimoLivello.hide()
 	

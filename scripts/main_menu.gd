@@ -1,7 +1,6 @@
 extends Control
 
 func _ready():
-	# Usiamo int() per ripulire il numero da eventuali decimali (.0) dovuti al JSON
 	if SaveManager.save_data.has("livello_sbloccato") and SaveManager.save_data["livello_sbloccato"] > 1:
 		var livello_intero = int(SaveManager.save_data["livello_sbloccato"])
 		$VBoxContainer/BtnContinua.disabled = false
@@ -28,7 +27,6 @@ func _on_btn_esci_pressed():
 	get_tree().quit()
 
 func _process(delta):
-	# Aggiorna il testo del pulsante audio in tempo reale
 	if MusicManager.is_muted:
 		$BtnAudio.text = "AUDIO: OFF"
 	else:

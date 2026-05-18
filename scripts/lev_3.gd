@@ -21,13 +21,11 @@ func _ready():
 	sq.set_meta("forma", "quadrato")
 	add_child(sq)
 
-	# Spawniamo i triangoli con le rotazioni iniziali per T1 e T4
-	spawn_triangolo("Pezzo_T1", Vector2(850, 150), Color.CORAL, 90)
-	spawn_triangolo("Pezzo_T2", Vector2(1050, 150), Color.CHARTREUSE, 0)
-	spawn_triangolo("Pezzo_T3", Vector2(950, 300), Color.AQUA, 90)
-	spawn_triangolo("Pezzo_T4", Vector2(950, 500), Color.HOT_PINK, 90)
+	spawn_triangolo("Pezzo_T1", Vector2(850, 150), 90)
+	spawn_triangolo("Pezzo_T2", Vector2(1050, 150), 0)
+	spawn_triangolo("Pezzo_T3", Vector2(950, 300), 90)
+	spawn_triangolo("Pezzo_T4", Vector2(950, 500), 90)
 
-	# --- SUGGERIMENTO (TIP) A SCHERMO ---
 	var tip = Label.new()
 	tip.text = "Right-click on a piece to rotate it"
 	tip.add_theme_font_size_override("font_size", 22)
@@ -35,12 +33,11 @@ func _ready():
 	tip.position = Vector2(900, 660) 
 	add_child(tip)
 
-func spawn_triangolo(nome, pos, colore, rot):
+func spawn_triangolo(nome, pos, rot):
 	var tr = Area2D.new()
 	tr.set_script(load("res://scripts/triangle.gd"))
 	tr.name = nome
 	tr.position = pos
-	tr.modulate = colore
 	tr.rotation_degrees = rot
 	tr.set_meta("forma", "triangolo")
 	add_child(tr)

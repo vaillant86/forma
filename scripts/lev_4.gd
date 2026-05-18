@@ -15,24 +15,22 @@ func _ready():
 	])
 	add_child(sagoma)
 
-	spawn_quadrato("Pezzo_Rosso", Vector2(150, 124), Color.INDIAN_RED)
-	spawn_quadrato("Pezzo_Verde", Vector2(150, 524), Color.MEDIUM_SEA_GREEN)
-	spawn_quadrato("Pezzo_Blu", Vector2(980, 124), Color.CORNFLOWER_BLUE)
-	spawn_quadrato("Pezzo_Giallo", Vector2(980, 524), Color.GOLD)
+	spawn_quadrato("Pezzo_Rosso", Vector2(150, 124))
+	spawn_quadrato("Pezzo_Verde", Vector2(150, 524))
+	spawn_quadrato("Pezzo_Blu", Vector2(980, 124))
+	spawn_quadrato("Pezzo_Giallo", Vector2(980, 524))
 
-	spawn_irregolare("Pezzo_IR", Vector2(980, 324), Color.CORAL)
+	spawn_irregolare("Pezzo_IR", Vector2(980, 324))
 
-func spawn_quadrato(nome, pos, colore):
+func spawn_quadrato(nome, pos):
 	var p = preload("res://square.tscn").instantiate()
 	p.name = nome
 	p.position = pos
-	p.modulate = colore
 	add_child(p)
 
-func spawn_irregolare(nome, pos, colore):
+func spawn_irregolare(nome, pos):
 	var pezzo = Area2D.new()
 	pezzo.set_script(load("res://scripts/trapezoid.gd"))
 	pezzo.name = nome
 	pezzo.position = pos
-	pezzo.modulate = colore
 	add_child(pezzo)

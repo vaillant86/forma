@@ -14,14 +14,13 @@ func _ready():
 	])
 	add_child(sagoma)
 
-	spawn_quadrato("Pezzo_Rosso", Vector2(150, 150), Color(0.85, 0.2, 0.2))
-	spawn_quadrato("Pezzo_Verde", Vector2(150, 500), Color(0.2, 0.7, 0.3))
-	spawn_quadrato("Pezzo_Blu", Vector2(1000, 150), Color(0.2, 0.4, 0.8))
-	spawn_quadrato("Pezzo_Giallo", Vector2(1000, 500), Color(0.8, 0.8, 0.2))
+	spawn_quadrato("Pezzo_Rosso", Vector2(150, 150))
+	spawn_quadrato("Pezzo_Verde", Vector2(150, 500))
+	spawn_quadrato("Pezzo_Blu", Vector2(1000, 150))
+	spawn_quadrato("Pezzo_Giallo", Vector2(1000, 500))
 
-func spawn_quadrato(nome, pos, colore):
+func spawn_quadrato(nome, pos):
 	var p = preload("res://square.tscn").instantiate()
 	p.name = nome
 	p.position = pos
-	p.modulate = colore
 	add_child(p)
