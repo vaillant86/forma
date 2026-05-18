@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://b687apsloeyoy"]
+[gd_scene format=3 uid="uid://p2esl6cpxg2j"]
 
-[ext_resource type="PackedScene" uid="uid://cfse02ut00ob3" path="res://base_level.tscn" id="1_wk3lv"]
-[ext_resource type="Script" uid="uid://uttpo1nok3f" path="res://scripts/lev_8.gd" id="2_y0mx6"]
+[ext_resource type="PackedScene" uid="uid://cfse02ut00ob3" path="res://base_level.tscn" id="1_h1453"]
+[ext_resource type="Script" uid="uid://uttpo1nok3f" path="res://scripts/lev_8.gd" id="2_wk3lv"]
 
-[node name="Livello 8" unique_id=1742480962 instance=ExtResource("1_wk3lv")]
-script = ExtResource("2_y0mx6")
+[node name="Livello 8" unique_id=1742480962 instance=ExtResource("1_h1453")]
+script = ExtResource("2_wk3lv")

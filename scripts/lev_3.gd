@@ -24,7 +24,7 @@ func _ready():
 	spawn_triangolo("Pezzo_T1", Vector2(850, 150), 90)
 	spawn_triangolo("Pezzo_T2", Vector2(1050, 150), 0)
 	spawn_triangolo("Pezzo_T3", Vector2(950, 300), 90)
-	spawn_triangolo("Pezzo_T4", Vector2(950, 500), 90)
+	spawn_triangolo("Pezzo_T4", Vector2(950, 500), 180)
 
 	var tip = Label.new()
 	tip.text = "Right-click on a piece to rotate it"

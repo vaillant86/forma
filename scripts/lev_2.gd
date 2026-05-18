@@ -16,8 +16,8 @@ func _ready():
 
 	spawn_quadrato("Pezzo_Rosso", Vector2(150, 150))
 	spawn_quadrato("Pezzo_Verde", Vector2(150, 500))
-	spawn_quadrato("Pezzo_Blu", Vector2(1000, 150))
-	spawn_quadrato("Pezzo_Giallo", Vector2(1000, 500))
+	spawn_quadrato("Pezzo_Blu", Vector2(1050, 150))
+	spawn_quadrato("Pezzo_Giallo", Vector2(1050, 500))
 
 func spawn_quadrato(nome, pos):
 	var p = preload("res://square.tscn").instantiate()

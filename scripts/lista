@@ -1,0 +1,410 @@
+==> base_level.gd <==
+extends Node2D
+
+var gioco_attivo = false
+var raggio_calamita = 80.0
+
+var grid_step = 75.0
+var grid_offset_x = 0.0
+var grid_offset_y = 0.0
+var griglia_calcolata = false
+
+func _ready():
+	pass
+
+func _process(_delta):
+	if not griglia_calcolata:
+		calcola_griglia_automatica()
+		imposta_interfaccia()
+		gioco_attivo = true
+		return
+		
+	if not gioco_attivo:
+		return
+		
+	if controlla_vittoria():
+		gestisci_vittoria()
+
+func imposta_interfaccia():
+	$UI/LabelVittoria.hide()
+	$UI/BtnProssimoLivello.hide()
+	
+	var nome_file = scene_file_path.get_file().get_basename()
+	if "_" in nome_file:
+		$UI/BtnLevel.text = "LEVEL " + nome_file.split("_")[1]
+	else:
+		$UI/BtnLevel.text = "LEVEL " + nome_file
+
+func calcola_griglia_automatica():
+	var sagoma = null
+	var primo_pezzo = null
+	
+	for n in get_children():
+		if n is Polygon2D and not n.name.begins_with("Pezzo"):
+			sagoma = n
+		elif n.name.begins_with("Pezzo_") and primo_pezzo == null:
+			primo_pezzo = n
+			
+	if sagoma != null and primo_pezzo != null:
+		grid_step = 50.0 * primo_pezzo.scale.x
+		
+		var min_x = 99999.0
+		var min_y = 99999.0
+		var trans = sagoma.get_global_transform()
+		
+		for pt in sagoma.polygon:
+			var global_pt = trans * pt
+			if global_pt.x < min_x: min_x = global_pt.x
+			if global_pt.y < min_y: min_y = global_pt.y
+			
+		grid_offset_x = fmod(min_x, grid_step)
+		grid_offset_y = fmod(min_y, grid_step)
+		
+	griglia_calcolata = true
+
+func controlla_vittoria() -> bool:
+	var pezzi = []
+	for n in get_children():
+		if n.name.begins_with("Pezzo_"):
+			if "trascinamento" in n and n.trascinamento:
+				return false
+			pezzi.append(n)
+			
+	var sagoma = null
+	for n in get_children():
+		if n is Polygon2D and not n.name.begins_with("Pezzo"):
+			sagoma = n
+			break
+			
+	if sagoma == null or pezzi.is_empty():
+		return false
+		
+	var sagoma_global_poly = PackedVector2Array()
+	var trans_sagoma = sagoma.get_global_transform()
+	for pt in sagoma.polygon:
+		sagoma_global_poly.append(trans_sagoma * pt)
+	
+	var poligoni_pezzi = []
+	for pezzo in pezzi:
+		var poly_node = null
+		for c in pezzo.get_children():
+			if "polygon" in c:
+				poly_node = c
+				break
+				
+		if poly_node:
+			var trans = poly_node.get_global_transform()
+			var global_poly = PackedVector2Array()
+			for pt in poly_node.polygon:
+				global_poly.append(trans * pt)
+			poligoni_pezzi.append(global_poly)
+			
+	if poligoni_pezzi.size() < pezzi.size():
+		return false
+			
+	var rimanenza_sagoma = [sagoma_global_poly]
+	for poly_p in poligoni_pezzi:
+		var nuova_rimanenza = []
+		for r_poly in rimanenza_sagoma:
+			nuova_rimanenza.append_array(Geometry2D.clip_polygons(r_poly, poly_p))
+		rimanenza_sagoma = nuova_rimanenza
+		
+	var area_scoperta = 0.0
+	for r_poly in rimanenza_sagoma:
+		area_scoperta += calcola_area(r_poly)
+		
+	var area_fuori = 0.0
+	for poly_p in poligoni_pezzi:
+		var pezzi_fuori = Geometry2D.clip_polygons(poly_p, sagoma_global_poly)
+		for p_fuori in pezzi_fuori:
+			area_fuori += calcola_area(p_fuori)
+
+	return area_scoperta < 500.0 and area_fuori < 500.0
+
+func calcola_area(poly: PackedVector2Array) -> float:
+	var area = 0.0
+	var n = poly.size()
+	for i in range(n):
+		var j = (i + 1) % n
+		area += poly[i].x * poly[j].y - poly[j].x * poly[i].y
+	return abs(area) / 2.0
+
+func gestisci_vittoria():
+	$UI/LabelVittoria.show()
+	$UI/BtnProssimoLivello.show()
+	
+	var nome = scene_file_path.get_file().get_basename()
+	if "_" in nome:
+		var lv = int(nome.split("_")[1])
+		if SaveManager.save_data["livello_sbloccato"] <= lv:
+			SaveManager.save_data["livello_sbloccato"] = lv + 1
+			SaveManager.save_game()
+	
+	gioco_attivo = false
+	set_process(false)
+
+func _on_btn_prossimo_livello_pressed():
+	var nome = scene_file_path.get_file().get_basename()
+	var prossimo = int(nome.split("_")[1]) + 1
+	var path = "res://lev_" + str(prossimo) + ".tscn"
+	if ResourceLoader.exists(path):
+		get_tree().change_scene_to_file(path)
+	else:
+		get_tree().change_scene_to_file("res://main_menu.tscn")
+
+func _on_btn_menu_pressed():
+	get_tree().change_scene_to_file("res://main_menu.tscn")
+
+func _on_btn_reset_pressed():
+	get_tree().reload_current_scene()
+
+==> bg.gd <==
+extends CanvasLayer
+
+func _process(delta):
+	var time = Time.get_ticks_msec() / 1000.0
+	
+	$BaseColor/Shape1.rotation += 0.1 * delta
+	$BaseColor/Shape1.position.y += sin(time) * 0.2
+	
+	$BaseColor/Shape2.rotation -= 0.15 * delta
+	$BaseColor/Shape2.position.x += cos(time * 0.8) * 0.2
+	
+	$BaseColor/Shape3.rotation += 0.05 * delta
+	$BaseColor/Shape3.position.y += cos(time * 1.2) * 0.2
+
+==> l_shape.gd <==
+extends "res://scripts/square.gd"
+
+func _ready():
+	super() # Richiama il grigio scuro da square.gd
+
+	var vertici = PackedVector2Array([
+		Vector2(-100, 100),   # Angolo in basso a sinistra (origine)
+		Vector2(300, 100),    # Punta estrema in basso a destra
+		Vector2(300, -100),   # Punta alta del braccio destro
+		Vector2(100, -100),   # Angolo interno
+		Vector2(100, -300),   # Punta alta del braccio superiore
+		Vector2(-100, -300)   # Punta sinistra del braccio superiore
+	])
+	
+	var poly = Polygon2D.new()
+	poly.polygon = vertici
+	add_child(poly)
+	
+	var collision = CollisionPolygon2D.new()
+	collision.polygon = vertici
+	add_child(collision)
+
+==> main_menu.gd <==
+extends Control
+
+func _ready():
+	if SaveManager.save_data.has("livello_sbloccato") and SaveManager.save_data["livello_sbloccato"] > 1:
+		var livello_intero = int(SaveManager.save_data["livello_sbloccato"])
+		$VBoxContainer/BtnContinua.disabled = false
+		$VBoxContainer/BtnContinua.text = "CONTINUE (Level " + str(livello_intero) + ")"
+	else:
+		$VBoxContainer/BtnContinua.disabled = true
+		$VBoxContainer/BtnContinua.text = "CONTINUE"
+
+func _on_btn_nuova_partita_pressed():
+	SaveManager.save_data["livello_sbloccato"] = 1
+	SaveManager.save_game()
+	get_tree().change_scene_to_file("res://lev_1.tscn")
+
+func _on_btn_continua_pressed():
+	var livello = int(SaveManager.save_data["livello_sbloccato"])
+	var percorso_livello = "res://lev_" + str(livello) + ".tscn"
+	
+	if ResourceLoader.exists(percorso_livello):
+		get_tree().change_scene_to_file(percorso_livello)
+	else:
+		get_tree().change_scene_to_file("res://lev_1.tscn")
+
+func _on_btn_esci_pressed():
+	get_tree().quit()
+
+func _process(delta):
+	if MusicManager.is_muted:
+		$BtnAudio.text = "AUDIO: OFF"
+	else:
+		$BtnAudio.text = "AUDIO: ON"
+
+func _on_btn_audio_pressed():
+	MusicManager.toggle_mute()
+
+==> music_manager.gd <==
+extends Node
+
+var player = AudioStreamPlayer.new()
+var is_muted = false
+
+func _ready():
+	add_child(player)
+
+	var track = load("res://music.ogg")
+	if track:
+		player.stream = track
+		player.autoplay = true
+		player.play()
+
+	if SaveManager.save_data.has("audio_muted"):
+		is_muted = SaveManager.save_data["audio_muted"]
+		_apply_mute()
+
+func toggle_mute():
+	is_muted = !is_muted
+	_apply_mute()
+
+	SaveManager.save_data["audio_muted"] = is_muted
+	SaveManager.save_game()
+
+func _apply_mute():
+	var master_bus = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_mute(master_bus, is_muted)
+
+==> rectangle.gd <==
+extends "res://scripts/square.gd"
+
+func _ready():
+	super() # Richiama il grigio scuro da square.gd
+
+	var vertici = PackedVector2Array([
+		Vector2(-100, -200),  # In alto a sinistra
+		Vector2(100, -200),   # In alto a destra
+		Vector2(100, 200),    # In basso a destra
+		Vector2(-100, 200)    # In basso a sinistra
+	])
+	
+	var poly = Polygon2D.new()
+	poly.polygon = vertici
+	add_child(poly)
+	
+	var collision = CollisionPolygon2D.new()
+	collision.polygon = vertici
+	add_child(collision)
+
+==> SaveManager.gd <==
+extends Node
+
+var save_path = "user://forma_save.json"
+var save_data = {
+	"livello_sbloccato": 1,
+	"audio_muted": false
+}
+
+func _ready():
+	load_game()
+
+func save_game():
+	var file = FileAccess.open(save_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(save_data))
+	file.close()
+
+func load_game():
+	if FileAccess.file_exists(save_path):
+		var file = FileAccess.open(save_path, FileAccess.READ)
+		var parsed_result = JSON.parse_string(file.get_as_text())
+		if parsed_result is Dictionary:
+			save_data = parsed_result
+
+==> square.gd <==
+extends Area2D
+
+static var pezzo_attivo = null
+
+var trascinamento = false
+var scarto_mouse = Vector2.ZERO
+var raggio_pezzo = 50
+
+func _ready():
+	modulate = Color(0.30, 0.30, 0.30) # GRIGIO SCURO
+
+func _input_event(_viewport, event, _shape_idx):
+    if event is InputEventMouseButton and event.pressed:
+        if event.button_index == MOUSE_BUTTON_LEFT and pezzo_attivo == null:
+            pezzo_attivo = self
+            trascinamento = true
+            scarto_mouse = global_position - get_global_mouse_position()
+            z_index = 10
+            get_viewport().set_input_as_handled()
+        elif event.button_index == MOUSE_BUTTON_RIGHT:
+            rotation_degrees = round(rotation_degrees / 90.0 + 1.0) * 90.0
+            if trascinamento:
+                scarto_mouse = global_position - get_global_mouse_position()
+            get_viewport().set_input_as_handled()
+            
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if not event.pressed and trascinamento:
+			trascinamento = false
+			z_index = 0
+			applica_calamita()
+			pezzo_attivo = null
+
+func _process(_delta):
+	if trascinamento:
+		global_position = get_global_mouse_position() + scarto_mouse
+		var limiti = get_viewport().get_visible_rect().size
+		global_position.x = clamp(global_position.x, raggio_pezzo, limiti.x - raggio_pezzo)
+		global_position.y = clamp(global_position.y, raggio_pezzo, limiti.y - raggio_pezzo)
+
+func applica_calamita():
+	var livello = get_parent()
+
+	var step = 75.0
+	var off_x = 51.0 
+	var off_y = 24.0 
+
+	if "grid_step" in livello:
+		step = livello.grid_step
+		off_x = livello.grid_offset_x
+		off_y = livello.grid_offset_y
+	
+	var target_x = round((global_position.x - off_x) / step) * step + off_x
+	var target_y = round((global_position.y - off_y) / step) * step + off_y
+	
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", Vector2(target_x, target_y), 0.1).set_trans(Tween.TRANS_SINE)
+
+==> trapezoid.gd <==
+extends "res://scripts/square.gd"
+
+func _ready():
+	super() # Richiama il grigio scuro da square.gd
+
+	var vertici = PackedVector2Array([
+		Vector2(-100, -50),      # Angolo superiore sinistro
+		Vector2(100, -50),       # Angolo superiore destro
+		Vector2(300, 150),       # Angolo inferiore destro
+		Vector2(100, 150)        # Angolo inferiore sinistro
+	])
+	
+	var poly = Polygon2D.new()
+	poly.polygon = vertici
+	add_child(poly)
+	
+	var collision = CollisionPolygon2D.new()
+	collision.polygon = vertici
+	add_child(collision)
+
+==> triangle.gd <==
+extends "res://scripts/square.gd"
+
+func _ready():
+	super() # Richiama il grigio scuro da square.gd
+
+	var vertici = PackedVector2Array([
+		Vector2(0, -50),   # Punta
+		Vector2(100, 50),  # Angolo basso destra
+		Vector2(-100, 50)  # Angolo basso sinistra
+	])
+	
+	var poly = Polygon2D.new()
+	poly.polygon = vertici
+	add_child(poly)
+	
+	var collision = CollisionPolygon2D.new()
+	collision.polygon = vertici
+	add_child(collision)

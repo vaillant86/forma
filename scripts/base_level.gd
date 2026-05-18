@@ -11,6 +11,12 @@ var griglia_calcolata = false
 func _ready():
 	pass
 
+func _get_level_number() -> int:
+	var nome = scene_file_path.get_file().get_basename()
+	if "_" in nome:
+		return int(nome.split("_")[1])
+	return 1
+	
 func _process(_delta):
 	if not griglia_calcolata:
 		calcola_griglia_automatica()
@@ -27,13 +33,8 @@ func _process(_delta):
 func imposta_interfaccia():
 	$UI/LabelVittoria.hide()
 	$UI/BtnProssimoLivello.hide()
+	$UI/BtnLevel.text = "LEVEL " + str(_get_level_number())
 	
-	var nome_file = scene_file_path.get_file().get_basename()
-	if "_" in nome_file:
-		$UI/BtnLevel.text = "LEVEL " + nome_file.split("_")[1]
-	else:
-		$UI/BtnLevel.text = "LEVEL " + nome_file
-
 func calcola_griglia_automatica():
 	var sagoma = null
 	var primo_pezzo = null
@@ -132,25 +133,22 @@ func gestisci_vittoria():
 	$UI/LabelVittoria.show()
 	$UI/BtnProssimoLivello.show()
 	
-	var nome = scene_file_path.get_file().get_basename()
-	if "_" in nome:
-		var lv = int(nome.split("_")[1])
-		if SaveManager.save_data["livello_sbloccato"] <= lv:
-			SaveManager.save_data["livello_sbloccato"] = lv + 1
-			SaveManager.save_game()
+	var lv = _get_level_number()
+	if SaveManager.save_data["livello_sbloccato"] <= lv:
+		SaveManager.save_data["livello_sbloccato"] = lv + 1
+		SaveManager.save_game()
 	
 	gioco_attivo = false
 	set_process(false)
 
 func _on_btn_prossimo_livello_pressed():
-	var nome = scene_file_path.get_file().get_basename()
-	var prossimo = int(nome.split("_")[1]) + 1
+	var prossimo = _get_level_number() + 1
 	var path = "res://lev_" + str(prossimo) + ".tscn"
 	if ResourceLoader.exists(path):
 		get_tree().change_scene_to_file(path)
 	else:
 		get_tree().change_scene_to_file("res://main_menu.tscn")
-
+		
 func _on_btn_menu_pressed():
 	get_tree().change_scene_to_file("res://main_menu.tscn")
 

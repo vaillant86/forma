@@ -9,15 +9,30 @@ var raggio_pezzo = 50
 func _ready():
 	modulate = Color(0.30, 0.30, 0.30) # GRIGIO SCURO
 
+func _setup_shape(vertici: PackedVector2Array) -> void:
+	var poly = Polygon2D.new()
+	poly.polygon = vertici
+	add_child(poly)
+
+	var collision = CollisionPolygon2D.new()
+	collision.polygon = vertici
+	add_child(collision)
+	
 func _input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed and pezzo_attivo == null:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT and pezzo_attivo == null:
 			pezzo_attivo = self
 			trascinamento = true
 			scarto_mouse = global_position - get_global_mouse_position()
 			z_index = 10
 			get_viewport().set_input_as_handled()
-
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			rotation_degrees += 90.0
+			rotation_degrees = round(rotation_degrees / 90.0) * 90.0
+			if trascinamento:
+				scarto_mouse = global_position - get_global_mouse_position()
+			get_viewport().set_input_as_handled()
+			
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if not event.pressed and trascinamento:
