@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cg12k7pt0ogbo"]
+
+[ext_resource type="PackedScene" uid="uid://cfse02ut00ob3" path="res://base_level.tscn" id="1_wp2jc"]
+[ext_resource type="Script" uid="uid://bh1ym237a0tkk" path="res://scripts/lev_13.gd" id="2_l65pq"]
+
+[node name="Livello 13" unique_id=1742480962 instance=ExtResource("1_wp2jc")]
+script = ExtResource("2_l65pq")
