@@ -6,6 +6,8 @@ var save_data = {
 	"audio_muted": false
 }
 
+var current_level : int = 1
+
 func _ready():
 	load_game()
 

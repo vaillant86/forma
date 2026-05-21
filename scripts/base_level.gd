@@ -21,6 +21,10 @@ func _process(_delta):
 	if not griglia_calcolata:
 		calcola_griglia_automatica()
 		imposta_interfaccia()
+		
+		# MEMORIA DI SESSIONE: Registra il livello attuale in inglese
+		SaveManager.current_level = _get_level_number()
+		
 		gioco_attivo = true
 		return
 		
@@ -137,6 +141,9 @@ func gestisci_vittoria():
 	if SaveManager.save_data["livello_sbloccato"] <= lv:
 		SaveManager.save_data["livello_sbloccato"] = lv + 1
 		SaveManager.save_game()
+	
+	# Se vince, punta al prossimo livello
+	SaveManager.current_level = lv + 1
 	
 	gioco_attivo = false
 	set_process(false)
