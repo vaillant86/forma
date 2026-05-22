@@ -11,12 +11,20 @@ func _ready():
 	])
 	add_child(sagoma)
 
-	spawn_l_shape("Pezzo_L", Vector2(100, 550))
-	spawn_rettangolo("Pezzo_Rect", Vector2(1000, 200), 90)
-	spawn_quadrato("Pezzo_Q1", Vector2(900, 600))
-	spawn_quadrato("Pezzo_Q2", Vector2(1100, 500))
-	spawn_triangolo("Pezzo_T1", Vector2(150, 100), 270)
-	spawn_triangolo("Pezzo_T2", Vector2(250, 250), 90)
+	spawn_l_shape("Pezzo_L", Vector2(250, 450), 180)
+	spawn_rettangolo("Pezzo_Rect", Vector2(1000, 250), 90)
+	spawn_quadrato("Pezzo_Q1", Vector2(150, 200))
+	spawn_quadrato("Pezzo_Q2", Vector2(1000, 450))
+
+	spawn_triangolo("Falso_T1", Vector2(550, 650), 0)
+	spawn_triangolo("Falso_T2", Vector2(1050, 100), 180)
+
+	var tip = Label.new()
+	tip.text = "Do you need all of them?"
+	tip.add_theme_font_size_override("font_size", 22)
+	tip.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0, 0.6))
+	tip.position = Vector2(900, 660) 
+	add_child(tip)
 
 func spawn_quadrato(nome, pos):
 	var p = preload("res://square.tscn").instantiate()
@@ -46,7 +54,7 @@ func spawn_l_shape(nome, pos, rot = 0.0):
 	pezzo.set_meta("forma", "l_shape")
 	add_child(pezzo)
 
-func spawn_triangolo(nome, pos, rot):
+func spawn_triangolo(nome, pos, rot = 0.0):
 	var tr = Area2D.new()
 	tr.set_script(load("res://scripts/triangle.gd"))
 	tr.name = nome

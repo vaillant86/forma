@@ -1,46 +1,36 @@
 extends "res://scripts/base_level.gd"
 
 func _ready():
+	grid_step = 100.0
+	grid_offset_x = 0.0
+	grid_offset_y = 0.0
+
 	var sagoma = Polygon2D.new()
 	sagoma.color = Color(0, 0, 0, 0.3)
 	sagoma.polygon = PackedVector2Array([
-		Vector2(501, 174), Vector2(576, 249), Vector2(651, 174), 
-		Vector2(726, 249), Vector2(726, 549), Vector2(651, 624), 
-		Vector2(576, 549), Vector2(501, 624), Vector2(426, 549), 
-		Vector2(426, 249)
+		Vector2(376,  24), Vector2(776,  24), Vector2(776, 224),
+		Vector2(576, 224), Vector2(776, 424),
+		Vector2(776, 624), Vector2(376, 624), Vector2(376, 424),
+		Vector2(576, 424), Vector2(376, 224),
 	])
 	add_child(sagoma)
 
-	spawn_l_shape("Pezzo_L", Vector2(150, 350))
-	spawn_quadrato("Pezzo_Q", Vector2(1000, 550))
-	spawn_triangolo("Pezzo_T1", Vector2(150, 550), 270)
-	spawn_triangolo("Pezzo_T2", Vector2(850, 100), 90)
-	spawn_triangolo("Pezzo_T3", Vector2(1000, 150), 0)
-	spawn_triangolo("Pezzo_T4", Vector2(1100, 350), 180)
+	spawn_quadrato("Pezzo_Rosso", Vector2(150, 124))
+	spawn_quadrato("Pezzo_Verde", Vector2(150, 524))
+	spawn_quadrato("Pezzo_Blu", Vector2(980, 124))
+	spawn_quadrato("Pezzo_Giallo", Vector2(980, 524))
+
+	spawn_irregolare("Pezzo_IR", Vector2(980, 324))
 
 func spawn_quadrato(nome, pos):
 	var p = preload("res://square.tscn").instantiate()
 	p.name = nome
 	p.position = pos
-	p.scale = Vector2(0.75, 0.75)
-	p.set_meta("forma", "quadrato")
 	add_child(p)
 
-func spawn_l_shape(nome, pos):
+func spawn_irregolare(nome, pos):
 	var pezzo = Area2D.new()
-	pezzo.set_script(load("res://scripts/l_shape.gd"))
+	pezzo.set_script(load("res://scripts/trapezoid.gd"))
 	pezzo.name = nome
 	pezzo.position = pos
-	pezzo.scale = Vector2(0.75, 0.75)
-	pezzo.set_meta("forma", "l_shape")
 	add_child(pezzo)
-
-func spawn_triangolo(nome, pos, rot):
-	var tr = Area2D.new()
-	tr.set_script(load("res://scripts/triangle.gd"))
-	tr.name = nome
-	tr.position = pos
-	tr.rotation_degrees = rot
-	tr.scale = Vector2(0.75, 0.75)
-	tr.set_meta("forma", "triangolo")
-	add_child(tr)
