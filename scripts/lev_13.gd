@@ -25,11 +25,11 @@ func _ready():
 	spawn_quadrato("Pezzo_Q1", Vector2(1000, 400))
 	
 	# Creiamo il trapezio che si trasforma al click destro
-	spawn_trapezio_trasformabile("Pezzo_TR1", Vector2(1000, 550))
+	spawn_fake_trapez("Pezzo_TR1", Vector2(1000, 550))
 	
 	move_child(sagoma, 0)
 
-func spawn_trapezio_trasformabile(nome, pos):
+func spawn_fake_trapez(nome, pos):
 	var pezzo = Area2D.new()
 	pezzo.set_script(load("res://scripts/trapezoid.gd"))
 	pezzo.name = nome
@@ -56,9 +56,6 @@ func _attiva_trasformazione_reale(trapezio_nodo: Area2D):
 		# Eliminiamo il vecchio trapezio
 		trapezio_nodo.queue_free()
 
-# ==========================================
-# FUNZIONE DI VITTORIA DEDICATA (OVERRIDE)
-# ==========================================
 func controlla_vittoria() -> bool:
 	# 1. Se il giocatore sta ancora trascinando un pezzo, non è ancora il momento di vincere
 	for n in get_children():
@@ -70,17 +67,17 @@ func controlla_vittoria() -> bool:
 	var t2 = get_node_or_null("Pezzo_T2")
 	var t3 = get_node_or_null("Pezzo_T3")
 	var t4 = get_node_or_null("Pezzo_T4")
-	var r1 = get_node_or_null("Pezzo_R1")
-	var r2 = get_node_or_null("Pezzo_R2")
 	var q1 = get_node_or_null("Pezzo_Q1")
-	var r_vero = get_node_or_null("Pezzo_R_Vero")
+	var r1 = get_node_or_null("Pezzo_R1")
+	var r3 = get_node_or_null("Pezzo_R_Vero")  # R_Vero è il rettangolo trasformato dal trapezio
 
-	# Se il rettangolo vero non è ancora nato (il giocatore non ha cliccato), la vittoria è impossibile
-	if not r_vero:
+	# Il giocatore DEVE avere ENTRAMBI i rettangoli validi: R1 AND R3
+	# R2 è la trappola e NON porta alla vittoria
+	if not (is_instance_valid(r1) and is_instance_valid(r3)):
 		return false
 
-	# Array con i nodi che DEVONO essere dentro la sagoma
-	var pezzi_necessari = [t1, t2, t3, t4, r1, r2, q1, r_vero]
+	# Array con i pezzi che DEVONO essere dentro la sagoma
+	var pezzi_necessari = [t1, t2, t3, t4, q1, r1, r3]
 
 	# 3. Verifichiamo che ogni singolo pezzo sia posizionato correttamente
 	for pezzo in pezzi_necessari:
@@ -97,10 +94,6 @@ func controlla_vittoria() -> bool:
 	# Se tutti i pezzi sono validi e si trovano dentro l'area della sagoma... VITTORIA!
 	return true
 
-
-# ==========================================
-# FUNZIONI DI SPAWN STANDARD
-# ==========================================
 func spawn_quadrato(nome, pos):
 	var p = preload("res://square.tscn").instantiate()
 	p.name = nome
