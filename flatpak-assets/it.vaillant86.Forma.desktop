@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Forma
+Comment=A minimalist geometric puzzle game
+Exec=Forma
+Icon=it.vaillant86.Forma
+Terminal=false
+Categories=Game;LogicGame;
