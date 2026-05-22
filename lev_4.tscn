@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bqknmlrflcrn"]
 
 [ext_resource type="PackedScene" uid="uid://cfse02ut00ob3" path="res://base_level.tscn" id="1_0nxkj"]
-[ext_resource type="Script" uid="uid://compli5nclss" path="res://scripts/lev_4.gd" id="2_68o1h"]
+[ext_resource type="Script" uid="uid://crt0h360mmfmg" path="res://scripts/lev_4.gd" id="2_5q6vq"]
 
 [node name="Livello 4" unique_id=1742480962 instance=ExtResource("1_0nxkj")]
-script = ExtResource("2_68o1h")
+script = ExtResource("2_5q6vq")
