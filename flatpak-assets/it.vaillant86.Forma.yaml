@@ -1,7 +1,7 @@
 id: it.vaillant86.Forma
-runtime: org.godotengine.GodotBaseApp
-runtime-version: stable
-sdk: org.freedesktop.Sdk//23.08
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
 command: Forma
 finish-args:
   - --socket=x11
@@ -11,20 +11,32 @@ finish-args:
   - --filesystem=xdg-run/pipewire-0
 
 modules:
+  - name: godot-binary
+    buildsystem: simple
+    build-commands:
+      # Ci prendiamo l'eseguibile di Godot e lo mettiamo nella cartella dei binari di Flatpak
+      - install -Dm755 godot4-headless /app/bin/godot
+    sources:
+      - type: file
+        url: https://github.com/godotengine/godot-builds/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux_headless.x86_64
+        dest-filename: godot4-headless
+        sha256: 62e2646d03ca4d4fb400fb81793741893c5d79667e4ed5e6bc21b3336c5332f9
+
   - name: forma
     buildsystem: simple
     build-commands:
-      # Export the Godot project pack
+      # Esportiamo il pacchetto pck usando il binario appena scaricato
       - godot --headless --export-pack "Linux" Forma.pck
       
-      # Install binary wrapper and pack
-      - install -Dm755 /app/bin/godot /app/bin/Forma
+      # Creiamo lo script di avvio per l'app
+      - echo -e '#!/bin/sh\nexec /app/bin/godot --main-pack /app/bin/Forma.pck "$@"' > /app/bin/Forma
+      - chmod +x /app/bin/Forma
       - install -Dm644 Forma.pck /app/bin/Forma.pck
       
-      # Install desktop metadata and icons
-      - install -Dm644 it.vaillant86.Forma.desktop /app/share/applications/it.vaillant86.Forma.desktop
-      - install -Dm644 it.vaillant86.Forma.metainfo.xml /app/share/metainfo/it.vaillant86.Forma.metainfo.xml
-      - install -Dm644 it.vaillant86.Forma.png /app/share/icons/hicolor/512x512/apps/it.vaillant86.Forma.png
+      # Installiamo metadati, desktop entry e icone
+      - install -Dm644 flatpak-assets/it.vaillant86.Forma.desktop /app/share/applications/it.vaillant86.Forma.desktop
+      - install -Dm644 flatpak-assets/it.vaillant86.Forma.metainfo.xml /app/share/metainfo/it.vaillant86.Forma.metainfo.xml
+      - install -Dm644 flatpak-assets/it.vaillant86.Forma.png /app/share/icons/hicolor/512x512/apps/it.vaillant86.Forma.png
     sources:
       - type: git
         url: https://github.com/vaillant86/forma.git
