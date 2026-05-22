@@ -5,10 +5,14 @@ func setup_level():
 	tooltip_text = "Do you need all of them?"
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(351, 549), Vector2(801, 549),
-		Vector2(801, 249), Vector2(651, 249),
-		Vector2(651, 99),  Vector2(501, 99),
-		Vector2(501, 249), Vector2(351, 249)
+		Vector2(351, 549),
+		Vector2(801, 549),
+		Vector2(801, 249),
+		Vector2(651, 249),
+		Vector2(651, 99),
+		Vector2(501, 99),
+		Vector2(501, 249),
+		Vector2(351, 249)
 	]))
 	
 	spawn_l_shape("Pezzo_L", Vector2(250, 450), 180)

@@ -9,10 +9,16 @@ func setup_level():
 	piece_scale = 0.75
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(376,  24), Vector2(776,  24), Vector2(776, 224),
-		Vector2(576, 224), Vector2(776, 424),
-		Vector2(776, 624), Vector2(376, 624), Vector2(376, 424),
-		Vector2(576, 424), Vector2(376, 224)
+		Vector2(426, 124),
+		Vector2(726, 124),
+		Vector2(726, 274),
+		Vector2(576, 274),
+		Vector2(726, 424),
+		Vector2(726, 574),
+		Vector2(426, 574),
+		Vector2(426, 424),
+		Vector2(576, 424),
+		Vector2(426, 274)
 	]))
 	
 	spawn_quadrato("Pezzo_Rosso", Vector2(150, 124))

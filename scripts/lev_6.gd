@@ -5,11 +5,21 @@ func setup_level():
 	tooltip_text = "Something is strange here"
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(351, 249), Vector2(351, 399), Vector2(501, 399), 
-		Vector2(501, 549), Vector2(576, 624), Vector2(651, 549), 
-		Vector2(651, 399), Vector2(801, 399), Vector2(876, 324), 
-		Vector2(801, 249), Vector2(651, 249), Vector2(651, 99), 
-		Vector2(576, 24),  Vector2(501, 99),  Vector2(501, 249)
+		Vector2(351, 249),
+		Vector2(351, 399),
+		Vector2(501, 399), 
+		Vector2(501, 549),
+		Vector2(576, 624),
+		Vector2(651, 549), 
+		Vector2(651, 399),
+		Vector2(801, 399),
+		Vector2(876, 324), 
+		Vector2(801, 249),
+		Vector2(651, 249),
+		Vector2(651, 99), 
+		Vector2(576, 24),
+		Vector2(501, 99),
+		Vector2(501, 249)
 	]))
 	
 	spawn_rettangolo("Pezzo_Rect", Vector2(200, 550), 90)

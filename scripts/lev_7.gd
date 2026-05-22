@@ -4,9 +4,15 @@ func setup_level():
 	piece_scale = 0.75
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(501, 174), Vector2(576, 249), Vector2(651, 174), 
-		Vector2(726, 249), Vector2(726, 549), Vector2(651, 624), 
-		Vector2(576, 549), Vector2(501, 624), Vector2(426, 549), 
+		Vector2(501, 174),
+		Vector2(576, 249),
+		Vector2(651, 174), 
+		Vector2(726, 249),
+		Vector2(726, 549),
+		Vector2(651, 624), 
+		Vector2(576, 549),
+		Vector2(501, 624),
+		Vector2(426, 549), 
 		Vector2(426, 249)
 	]))
 	

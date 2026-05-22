@@ -10,8 +10,12 @@ func setup_level():
 	tooltip_text = "Right-click on a piece to rotate it"
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(400, 500), Vector2(600, 500), Vector2(600, 300), 
-		Vector2(700, 300), Vector2(500, 100), Vector2(300, 300), 
+		Vector2(400, 500),
+		Vector2(600, 500),
+		Vector2(600, 300), 
+		Vector2(700, 300),
+		Vector2(500, 100),
+		Vector2(300, 300), 
 		Vector2(400, 300)
 	]))
 	

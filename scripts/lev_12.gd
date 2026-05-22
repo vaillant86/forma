@@ -5,8 +5,10 @@ func setup_level():
 	tooltip_text = "Be quiet please..."
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(350, 200), Vector2(800, 200),
-		Vector2(800, 500), Vector2(350, 500)
+		Vector2(350, 200),
+		Vector2(800, 200),
+		Vector2(800, 500),
+		Vector2(350, 500)
 	]))
 	
 	spawn_l_shape("Pezzo_L", Vector2(100, 550))

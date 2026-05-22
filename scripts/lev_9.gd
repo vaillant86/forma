@@ -4,9 +4,15 @@ func setup_level():
 	piece_scale = 0.75
 	
 	create_sagoma(PackedVector2Array([
-		Vector2(351, 549), Vector2(801, 549), Vector2(801, 249),
-		Vector2(726, 174), Vector2(651, 249), Vector2(576, 174),
-		Vector2(501, 249), Vector2(501, 99),  Vector2(351, 99)
+		Vector2(351, 549),
+		Vector2(801, 549),
+		Vector2(801, 249),
+		Vector2(726, 174),
+		Vector2(651, 249),
+		Vector2(576, 174),
+		Vector2(501, 249),
+		Vector2(501, 99),
+		Vector2(351, 99)
 	]))
 	
 	spawn_l_shape("Pezzo_L", Vector2(100, 550))

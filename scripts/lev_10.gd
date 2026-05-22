@@ -4,21 +4,6 @@ func setup_level():
 	piece_scale = 0.75
 	tooltip_text = "There is a liar among us"
 	
-#	create_sagoma(PackedVector2Array([
-#		Vector2(350, 100),
-#		Vector2(650, 100),
-#		Vector2(650, 250),
-#		Vector2(800, 250),
-#		Vector2(800, 550),
-#		Vector2(650, 550),
-#		Vector2(650, 700),
-#		Vector2(350, 700),
-#		Vector2(350, 550),
-#		Vector2(200, 550),
-#		Vector2(200, 250),
-#		Vector2(350, 250)
-#	]))
-
 	create_sagoma(PackedVector2Array([
 		Vector2(400, 50),
 		Vector2(700, 50),
