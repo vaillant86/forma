@@ -1,99 +1,66 @@
 extends "res://scripts/level_template.gd"
 
-var sfondo_invertito: bool = false
-var bottone_colore: Button
-
-var posizioni_disordinate: Dictionary = {}
+var sfida_iniziata: bool = false
+var bottone_start: Button
+var sagoma_node = null
 
 func setup_level():
 	piece_scale = 1.0
-	tooltip_text = "Hidden in plain sight"
+	tooltip_text = "Press it!"
 	
 	var punti_sagoma = PackedVector2Array([
-		Vector2(450, 250),
-		Vector2(850, 250),
-		Vector2(850, 450),
-		Vector2(450, 450)
+		Vector2(650, 200),  # Punta del tetto
+		Vector2(750, 300),  # Base tetto destra
+		Vector2(850, 300),  # Angolo corpo destra in alto
+		Vector2(850, 500),  # Angolo corpo destra in basso
+		Vector2(450, 500),  # Angolo corpo sinistra in basso
+		Vector2(450, 300),  # Angolo corpo sinistra in alto
+		Vector2(550, 300),  # Base tetto sinistra
 	])
 	create_sagoma(punti_sagoma)
 	
-	spawn_quadrato("Pezzo_Main", Vector2(150, 350))
-	spawn_quadrato("Pezzo_Extra", Vector2(1050, 350))
+	spawn_quadrato("Pezzo_Q1", Vector2(250, 350))
+	spawn_quadrato("Pezzo_Q2", Vector2(1050, 450))
+	spawn_triangolo("Pezzo_T1", Vector2(1000, 150), 90)
 	
-	crea_pulsante_colore()
+	crea_pulsante_start()
 
 func _ready():
 	super._ready()
 	await get_tree().process_frame
-	_genera_posizioni_disordinate()
+	_imposta_blocco_pezzi(true)
+	for n in get_children():
+		if n is Polygon2D and not n.name.begins_with("Pezzo"):
+			sagoma_node = n
+			break
 
-func _genera_posizioni_disordinate():
-	var zone_caos = [
-		Rect2(50, 150, 300, 400),   # Zona sinistra
-		Rect2(850, 150, 300, 400),  # Zona destra
-		Rect2(150, 500, 600, 150),  # Zona in basso
-	]
+func crea_pulsante_start():
+	bottone_start = Button.new()
+	bottone_start.text = "PRESS ME"
+	bottone_start.position = Vector2(500, 580)
+	bottone_start.custom_minimum_size = Vector2(150, 50)
+	bottone_start.pressed.connect(_on_btn_start_pressed)
+	$UI.add_child(bottone_start)
+
+func _on_btn_start_pressed():
+	if sfida_iniziata:
+		return
+	
+	sfida_iniziata = true
+	
+	if sagoma_node:
+		sagoma_node.visible = false
+	
+	_imposta_blocco_pezzi(false)
+	
+	bottone_start.visible = false
+
+func _imposta_blocco_pezzi(bloccato: bool):
 	for n in get_children():
 		if n.name.begins_with("Pezzo_"):
-			var zona = zone_caos[randi() % zone_caos.size()]
-			posizioni_disordinate[n.name] = Vector2(
-				randf_range(zona.position.x, zona.position.x + zona.size.x),
-				randf_range(zona.position.y, zona.position.y + zona.size.y)
-			)
-
-func crea_pulsante_colore():
-	bottone_colore = Button.new()
-	bottone_colore.text = "CHANGE COLOR"
-	bottone_colore.position = Vector2(500, 580)
-	bottone_colore.custom_minimum_size = Vector2(150, 50)
-	bottone_colore.pressed.connect(_on_btn_invert_color_pressed)
-	$UI.add_child(bottone_colore)
-
-func _on_btn_invert_color_pressed():
-	sfondo_invertito = !sfondo_invertito
-
-	var elemento_visivo = null
-	if $LevelBackground.get_child_count() > 0:
-		elemento_visivo = $LevelBackground.get_child(0)
-	var target_colore = elemento_visivo if elemento_visivo != null else $LevelBackground
-
-	if sfondo_invertito:
-		# Lo sfondo cambia colore (es. diventa scuro)
-		target_colore.modulate = Color(0.2, 0.2, 0.3)
-		bottone_colore.text = "CHANGE COLOR"
-		
-		# I pezzi diventano TRASPARENTI AL 100% (Invisibili, ma cliccabili!)
-		for n in get_children():
-			if n.name.begins_with("Pezzo_"):
-				n.modulate.a = 0.0 # Alpha a 0 = invisibile al giocatore
-	else:
-		# Lo sfondo torna normale
-		target_colore.modulate = Color(1.0, 1.0, 1.0)
-		bottone_colore.text = "CHANGE COLOR"
-		
-		# I pezzi tornano visibili e si rimescolano nel caos
-		for n in get_children():
-			if n.name.begins_with("Pezzo_"):
-				n.modulate.a = 1.0 # Alpha a 1 = torna visibile
-				
-				# Punizione: cambiano posizione
-				if posizioni_disordinate.has(n.name):
-					n.position = posizioni_disordinate[n.name]
-				
-				_rigenera_posizione_disordinata(n)
-func _rigenera_posizione_disordinata(pezzo):
-	var zone_caos = [
-		Rect2(50, 150, 300, 400),
-		Rect2(850, 150, 300, 400),
-		Rect2(150, 500, 600, 150),
-	]
-	var zona = zone_caos[randi() % zone_caos.size()]
-	posizioni_disordinate[pezzo.name] = Vector2(
-		randf_range(zona.position.x, zona.position.x + zona.size.x),
-		randf_range(zona.position.y, zona.position.y + zona.size.y)
-	)
+			n.input_pickable = !bloccato
 
 func controlla_vittoria() -> bool:
-	if not sfondo_invertito:
+	if not sfida_iniziata:
 		return false
 	return super.controlla_vittoria()
