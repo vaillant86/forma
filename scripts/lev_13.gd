@@ -2,6 +2,7 @@ extends "res://scripts/level_template.gd"
 
 func setup_level():
 	piece_scale = 0.75
+	tooltip_text = "Hidden in plain sight"
 	
 	create_sagoma(PackedVector2Array([
 		Vector2(400, 200), Vector2(850, 200),
@@ -33,8 +34,7 @@ func _transform_trapezoid_to_rectangle(trapezoid_node: Area2D):
 	if is_instance_valid(trapezoid_node):
 		var pos = trapezoid_node.position
 		var rot = trapezoid_node.rotation_degrees
-		
-		# Free the fake rectangle to balance the total alignment area
+		s
 		var fake_r = get_node_or_null("Pezzo_R2")
 		if is_instance_valid(fake_r):
 			fake_r.queue_free()
@@ -66,7 +66,6 @@ func controlla_vittoria() -> bool:
 		if not is_instance_valid(pezzo):
 			return false
 		
-		# Check alignment within sagoma boundaries
 		var pos = pezzo.global_position
 		if pos.x < 390 or pos.x > 860 or pos.y < 190 or pos.y > 510:
 			return false

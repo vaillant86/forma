@@ -15,9 +15,9 @@ func setup_level():
 		Vector2(351, 249)
 	]))
 	
-	spawn_l_shape("Pezzo_L", Vector2(250, 450), 180)
+	spawn_l_shape("Pezzo_L", Vector2(250, 350), 180)
 	spawn_rettangolo("Pezzo_Rect", Vector2(1000, 250), 90)
-	spawn_quadrato("Pezzo_Q1", Vector2(150, 200))
+	spawn_quadrato("Pezzo_Q1", Vector2(150, 100))
 	spawn_quadrato("Pezzo_Q2", Vector2(1000, 450))
-	spawn_triangolo("Falso_T1", Vector2(550, 650), 0)
+	spawn_triangolo("Falso_T1", Vector2(400, 50), 0)
 	spawn_triangolo("Falso_T2", Vector2(1050, 100), 180)

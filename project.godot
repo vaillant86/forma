@@ -22,8 +22,8 @@ MusicManager="*uid://erke1pf1ip3m"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1366
+window/size/viewport_height=768
 
 [dotnet]
 

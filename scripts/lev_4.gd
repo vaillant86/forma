@@ -7,6 +7,7 @@ func setup_level():
 		"grid_offset_y": 0.0
 	}
 	piece_scale = 0.75
+	tooltip_text = "A new piece joins the party"
 	
 	create_sagoma(PackedVector2Array([
 		Vector2(426, 124),

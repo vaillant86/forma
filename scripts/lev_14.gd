@@ -6,16 +6,16 @@ var sagoma_node = null
 
 func setup_level():
 	piece_scale = 1.0
-	tooltip_text = "Press it!"
+	tooltip_text = "Memory is your only friend"
 	
 	var punti_sagoma = PackedVector2Array([
-		Vector2(650, 200),  # Punta del tetto
-		Vector2(750, 300),  # Base tetto destra
-		Vector2(850, 300),  # Angolo corpo destra in alto
-		Vector2(850, 500),  # Angolo corpo destra in basso
-		Vector2(450, 500),  # Angolo corpo sinistra in basso
-		Vector2(450, 300),  # Angolo corpo sinistra in alto
-		Vector2(550, 300),  # Base tetto sinistra
+		Vector2(650, 200),
+		Vector2(750, 300),
+		Vector2(850, 300),
+		Vector2(850, 500),
+		Vector2(450, 500),
+		Vector2(450, 300),
+		Vector2(550, 300),
 	])
 	create_sagoma(punti_sagoma)
 	
@@ -41,7 +41,6 @@ func crea_pulsante_start():
 	bottone_start.custom_minimum_size = Vector2(150, 50)
 	bottone_start.pressed.connect(_on_btn_start_pressed)
 	$UI.add_child(bottone_start)
-
 func _on_btn_start_pressed():
 	if sfida_iniziata:
 		return

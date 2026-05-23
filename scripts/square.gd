@@ -7,7 +7,7 @@ var scarto_mouse = Vector2.ZERO
 var raggio_pezzo = 50
 
 func _ready():
-	modulate = Color(0.30, 0.30, 0.30) # GRIGIO SCURO
+	modulate = Color(0.30, 0.30, 0.30)
 
 func _setup_shape(vertici: PackedVector2Array) -> void:
 	var poly = Polygon2D.new()

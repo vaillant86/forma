@@ -7,6 +7,7 @@ func setup_level():
 		"grid_offset_y": 0.0
 	}
 	piece_scale = 1.0
+	tooltip_text = "Every corner counts"
 	
 	create_sagoma(PackedVector2Array([
 		Vector2(300, 200), Vector2(900, 200), Vector2(900, 400),

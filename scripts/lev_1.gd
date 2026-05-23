@@ -7,6 +7,7 @@ func setup_level():
 		"grid_offset_y": 0.0
 	}
 	piece_scale = 1.0
+	tooltip_text = "Fill the shape"
 	
 	create_sagoma(PackedVector2Array([
 		Vector2(400, 200), Vector2(800, 200), Vector2(800, 400),

@@ -2,7 +2,7 @@ extends "res://scripts/level_template.gd"
 
 func setup_level():
 	piece_scale = 0.75
-	tooltip_text = "Be quiet please..."
+	tooltip_text = "Be quiet please"
 	
 	create_sagoma(PackedVector2Array([
 		Vector2(350, 200),
