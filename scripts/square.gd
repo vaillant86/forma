@@ -60,6 +60,9 @@ func applica_calamita():
 		off_x = livello.grid_offset_x
 		off_y = livello.grid_offset_y
 	
+	if step == 0.0:
+		return
+			
 	var target_x = round((global_position.x - off_x) / step) * step + off_x
 	var target_y = round((global_position.y - off_y) / step) * step + off_y
 	
