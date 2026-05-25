@@ -34,7 +34,7 @@ func _transform_trapezoid_to_rectangle(trapezoid_node: Area2D):
 	if is_instance_valid(trapezoid_node):
 		var pos = trapezoid_node.position
 		var rot = trapezoid_node.rotation_degrees
-		s
+
 		var fake_r = get_node_or_null("Pezzo_R2")
 		if is_instance_valid(fake_r):
 			fake_r.queue_free()
@@ -46,6 +46,9 @@ func _transform_trapezoid_to_rectangle(trapezoid_node: Area2D):
 
 func controlla_vittoria() -> bool:
 	for n in get_children():
+		if n.name == "Pezzo_R2":
+			continue
+
 		if n.name.begins_with("Pezzo_") and "trascinamento" in n and n.trascinamento:
 			return false
 

@@ -37,7 +37,7 @@ func _ready():
 func crea_pulsante_start():
 	bottone_start = Button.new()
 	bottone_start.text = "PRESS ME"
-	bottone_start.position = Vector2(500, 580)
+	bottone_start.position = Vector2(600, 580)
 	bottone_start.custom_minimum_size = Vector2(150, 50)
 	bottone_start.pressed.connect(_on_btn_start_pressed)
 	$UI.add_child(bottone_start)

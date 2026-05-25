@@ -6,7 +6,7 @@ var piece_right: Node2D
 
 func setup_level():
 	piece_scale = 1.0
-	tooltip_text = "Reflections look alike, but walk different paths"
+	tooltip_text = "Reflections walk different paths"
 	
 	spawn_quadrato("Pezzo_Main", Vector2(200, 384))
 	spawn_quadrato("Pezzo_Extra", Vector2(1166, 384))
