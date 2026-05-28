@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 17 - CAST THE PERFECT SHADOW
+# ============================================================================
+# Difficulty: Expert
+# Mechanics: Moving lamp projects shadow of piece onto sagoma.
+# Challenge: Position lamp and piece to make shadow match target outline.
+
 extends "res://scripts/level_template.gd"
 
 var lamp: Node2D

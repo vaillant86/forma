@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 2 - EVERY CORNER COUNTS
+# ============================================================================
+# Difficulty: Easy
+# Mechanics: Reinforces basic placement with a more complex 8-point target.
+# Challenge: Target has more corners/edges; requires careful alignment of all 4 pieces.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

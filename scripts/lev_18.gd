@@ -1,76 +1,147 @@
+# ============================================================================
+# LEVEL 18 - LESS IS MORE
+# ============================================================================
+# Difficulty: Expert
+# Mechanics: Target is a frame, not a square.
+# Challenge: Fill the border around a central void.
+
 extends "res://scripts/level_template.gd"
 
-var target_center := Vector2(683, 384)
-var q1_spawn_pos := Vector2(1150, 520)
+var active_pieces: Array = []
+
+var targets = [
+	{
+		"node": "Pezzo_R1",
+		"pos": Vector2(533.0, 309.0),
+		"rot": 0.0
+	},
+	{
+		"node": "Pezzo_R2",
+		"pos": Vector2(608.0, 534.0),
+		"rot": 90.0
+	},
+	{
+		"node": "Pezzo_R3",
+		"pos": Vector2(833.0, 459.0),
+		"rot": 0.0
+	},
+	{
+		"node": "Pezzo_R4",
+		"pos": Vector2(758.0, 234.0),
+		"rot": 90.0
+	}
+]
 
 func setup_level():
-	piece_scale = 0.72
 	tooltip_text = "Less is more"
+	piece_scale = 0.75
+	grid_step = 0.0
+	grid_offset_x = 0.0
+	grid_offset_y = 0.0
 
-	var quadrato_esterno = PackedVector2Array([
-		Vector2(483, 184),
-		Vector2(867, 184),
-		Vector2(867, 568),
-		Vector2(483, 568)
-	])
-	
-	var quadrato_interno = PackedVector2Array([
-		Vector2(525, 225),
-		Vector2(525, 545),
-		Vector2(840, 545),
-		Vector2(840, 225)
+	var punti_sagoma = PackedVector2Array([
+		Vector2(383, 84),
+		Vector2(833, 84),
+		Vector2(833, 534),
+		Vector2(383, 534)
 	])
 
-	var coordinate_cornice = Geometry2D.clip_polygons(quadrato_esterno, quadrato_interno)
-	
-	if coordinate_cornice.size() > 0:
-		create_sagoma(coordinate_cornice[0])
-	else:
-		create_sagoma(quadrato_esterno)
+	create_sagoma(punti_sagoma)
 
-	spawn_rettangolo("Pezzo_R1", Vector2(130, 140), 0)
-	spawn_rettangolo("Pezzo_R2", Vector2(130, 270), 0)
-	spawn_rettangolo("Pezzo_R3", Vector2(1200, 140), 90)
-	spawn_rettangolo("Pezzo_R4", Vector2(1200, 300), 90)
-	spawn_triangolo("Pezzo_T1", Vector2(120, 520), 0)
-	spawn_triangolo("Pezzo_T2", Vector2(250, 520), 90)
-	spawn_quadrato("Pezzo_Q1", q1_spawn_pos)
+	spawn_rettangolo("Pezzo_R1", Vector2(100, 200), 0)
+	spawn_rettangolo("Pezzo_R2", Vector2(150, 500), 90)
+	spawn_rettangolo("Pezzo_R3", Vector2(1000, 200), 0)
+	spawn_rettangolo("Pezzo_R4", Vector2(1050, 500), 90)
+	spawn_quadrato("Pezzo_Q1", Vector2(608, 309))
 
-func controlla_vittoria() -> bool:
 
+func _ready():
+	super._ready()
+	await get_tree().process_frame
 	for n in get_children():
-		if n.name.begins_with("Pezzo_") and "trascinamento" in n and n.trascinamento:
-			return false
+		if n.name.begins_with("Pezzo_"):
+			active_pieces.append(n)
 
-	var q1 = get_piece_by_name("Pezzo_Q1")
+func _process(delta):
+	super._process(delta)
 
-	if is_instance_valid(q1):
-		if q1.global_position.distance_to(target_center) < 300.0:
-			return false
+	for t in targets:
 
-	var required = [
-		get_piece_by_name("Pezzo_R1"),
-		get_piece_by_name("Pezzo_R2"),
-		get_piece_by_name("Pezzo_R3"),
-		get_piece_by_name("Pezzo_R4"),
-		get_piece_by_name("Pezzo_T1"),
-		get_piece_by_name("Pezzo_T2")
+		if t["pos"] == Vector2.ZERO:
+			continue
+
+		var p = get_piece_by_name(t["node"])
+
+		if not is_instance_valid(p):
+			continue
+
+		if p.trascinamento:
+			continue
+
+		var rot = wrapf(p.rotation_degrees, 0.0, 360.0)
+		var target_rot = wrapf(t["rot"], 0.0, 360.0)
+
+		if p.global_position.distance_to(t["pos"]) < 15.0 \
+		and abs(rot - target_rot) < 5.0:
+
+			p.global_position = t["pos"]
+			p.rotation_degrees = t["rot"]
+			
+func controlla_vittoria() -> bool:
+	var slots = [
+		{
+			"pos": Vector2(533.0, 309.0),
+				"verticale": false
+		},
+		{
+			"pos": Vector2(608.0, 534.0),
+			"verticale": true
+		},
+		{
+			"pos": Vector2(833.0, 459.0),
+			"verticale": false
+		},
+		{
+			"pos": Vector2(758.0, 234.0),
+			"verticale": true
+		}
 	]
 
-	for pezzo in required:
+	for p in active_pieces:
 
-		if not is_instance_valid(pezzo):
+		if not is_instance_valid(p):
 			return false
 
-		var pos = pezzo.global_position
-
-		if pos.x < 460 or pos.x > 910:
+		if p.trascinamento:
 			return false
 
-		if pos.y < 160 or pos.y > 610:
-			return false
+	for slot in slots:
+		var trovato = false
+		for p in active_pieces:
+			if p.global_position.distance_to(slot["pos"]) > 5.0:
+				continue
 
-		if pos.x > 555 and pos.x < 811 and pos.y > 256 and pos.y < 512:
+			var rot = wrapf(p.rotation_degrees, 0.0, 360.0)
+
+			var verticale = (
+				abs(rot - 90.0) < 5.0
+				or abs(rot - 270.0) < 5.0
+			)
+
+			var orizzontale = (
+				abs(rot - 0.0) < 5.0
+				or abs(rot - 180.0) < 5.0
+			)
+
+			if slot["verticale"] and verticale:
+				trovato = true
+				break
+
+			if not slot["verticale"] and orizzontale:
+				trovato = true
+				break
+
+		if not trovato:
 			return false
 
 	return true

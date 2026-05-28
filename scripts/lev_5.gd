@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 5 - STEP BY STEP
+# ============================================================================
+# Difficulty: Easy
+# Mechanics: Reinforces piece variety (square, rectangle, L-shape).
+# Challenge: Staircase target requires careful thinking; pieces must stack precisely.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

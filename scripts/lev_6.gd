@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 6 - SOMETHING IS STRANGE HERE
+# ============================================================================
+# Difficulty: Medium
+# Mechanics: Introduces multiple shapes in complex arrangements.
+# Challenge: Complex 15-point star-like target; requires using most piece types.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

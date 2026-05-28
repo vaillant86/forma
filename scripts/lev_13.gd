@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 13 - HIDDEN IN PLAIN SIGHT
+# ============================================================================
+# Difficulty: Hard
+# Mechanics: A piece transforms on right-click (trapezoid → rectangle).
+# Challenge: Find the fake piece and transform it.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

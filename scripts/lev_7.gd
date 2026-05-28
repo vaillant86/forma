@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 7 - FIND THE RIGHT ANGLE
+# ============================================================================
+# Difficulty: Medium
+# Mechanics: Complex spatial reasoning with multiple piece types.
+# Challenge: Complex 10-point diamond/polygon target; requires proper rotation alignment.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 1 - FILL THE SHAPE
+# ============================================================================
+# Difficulty: Easy
+# Mechanics: Learn basic piece dragging and placement into a target shape.
+# Challenge: None.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 3 - RIGHT-CLICK ON A PIECE TO ROTATE IT
+# ============================================================================
+# Difficulty: Easy
+# Mechanics: Player learns that pieces can be rotated (right-click).
+# Challenge: For the first time, pieces must be rotated to fit the target shape.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

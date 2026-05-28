@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 11 - TRUST NO ONE
+# ============================================================================
+# Difficulty: Hard
+# Mechanics: Multiple decoy pieces; deceptive layout.
+# Challenge: Complex 10-point irregular polygon; 8 pieces with 2 decoys.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

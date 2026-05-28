@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 12 - BE QUIET PLEASE
+# ============================================================================
+# Difficulty: Hard
+# Mechanics: Simple target but audio mute requirement.
+# Challenge: Requires player to mute game audio to win.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

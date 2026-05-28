@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 4 - A NEW PIECE JOINS THE PARTY
+# ============================================================================
+# Difficulty: Easy
+# Mechanics: Introduction to the trapezoid piece type (5th unique shape).
+# Challenge: Complex 10-point target; players must figure out how 5 pieces fit together.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

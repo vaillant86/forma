@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 14 - MEMORY IS YOUR ONLY FRIEND
+# ============================================================================
+# Difficulty: Hard
+# Mechanics: Target shape is revealed briefly, then hidden.
+# Challenge: Target visibility toggles on button press.
+
 extends "res://scripts/level_template.gd"
 
 var sfida_iniziata: bool = false

@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 9 - KEEP GOING
+# ============================================================================
+# Difficulty: Medium
+# Mechanics: Continues teaching piece filtering; reinforces level 8 concepts.
+# Challenge: 9-point sawtooth target; 6 pieces with 2 decoys.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

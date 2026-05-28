@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 10 - THERE IS A LIAR AMONG US
+# ============================================================================
+# Difficulty: Medium
+# Mechanics: Heavy decoy elements; player must carefully select pieces.
+# Challenge: Complex 12-point polygon; 7 pieces with 1 confirmed decoy + ambiguity.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():

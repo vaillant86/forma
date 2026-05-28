@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 15 - OPPOSITES ATTRACT (PHYSICS-BASED CHALLENGE)
+# ============================================================================
+# Difficulty: Hard
+# Mechanics: Pieces are attracted to center point.
+# Challenge: Three pieces with gravity toward center.
+
 extends "res://scripts/level_template.gd"
 
 var magnet_center: Vector2 = Vector2(683, 384)

@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 16 - REFLECTIONS WALK DIFFERENT PATHS
+# ============================================================================
+# Difficulty: Expert
+# Mechanics: Two pieces mirrored.
+# Challenge: Pieces must move in synchronized mirror motion.
+
 extends "res://scripts/level_template.gd"
 
 var center_x: float = 683.0

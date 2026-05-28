@@ -1,3 +1,10 @@
+# ============================================================================
+# LEVEL 8 - DO YOU NEED ALL OF THEM?
+# ============================================================================
+# Difficulty: Medium
+# Mechanics: Players must identify which pieces are actually needed.
+# Challenge: 6 pieces provided, but only 4 fit; red herrings included.
+
 extends "res://scripts/level_template.gd"
 
 func setup_level():
