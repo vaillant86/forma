@@ -2,7 +2,7 @@
 # LEVEL 18 - LESS IS MORE
 # ============================================================================
 # Difficulty: Expert
-# Mechanics: Target is a frame, not a square.
+# Mechanics: Puzzle targets border placement inside a solid square silhouette.
 # Challenge: Fill the border around a central void.
 
 extends "res://scripts/level_template.gd"
@@ -52,7 +52,6 @@ func setup_level():
 	spawn_rettangolo("Pezzo_R2", Vector2(150, 500), 90)
 	spawn_rettangolo("Pezzo_R3", Vector2(1000, 200), 0)
 	spawn_rettangolo("Pezzo_R4", Vector2(1050, 500), 90)
-	spawn_quadrato("Pezzo_Q1", Vector2(608, 309))
 
 
 func _ready():
@@ -116,7 +115,7 @@ func controlla_vittoria() -> bool:
 			return false
 
 	for slot in slots:
-		var trovato = false
+		var found = false
 		for p in active_pieces:
 			if p.global_position.distance_to(slot["pos"]) > 5.0:
 				continue
@@ -134,14 +133,14 @@ func controlla_vittoria() -> bool:
 			)
 
 			if slot["verticale"] and verticale:
-				trovato = true
+				found = true
 				break
 
 			if not slot["verticale"] and orizzontale:
-				trovato = true
+				found = true
 				break
 
-		if not trovato:
+		if not found:
 			return false
 
 	return true
