@@ -8,7 +8,7 @@
 extends "res://scripts/level_template.gd"
 
 var magnet_center: Vector2 = Vector2(683, 384)
-var magnet_strength: float = 150.0
+var magnet_strength: float = 400.0
 var active_pieces: Array = []
 
 var slots: Array[Vector2] = [
@@ -16,7 +16,7 @@ var slots: Array[Vector2] = [
 	Vector2(683, 384),
 	Vector2(883, 384)
 ]
-var snap_threshold: float = 60.0
+var snap_threshold: float = 10.0
 
 func setup_level():
 	piece_scale = 1.0
@@ -30,9 +30,9 @@ func setup_level():
 	])
 	create_sagoma(punti_sagoma)
 	
-	spawn_quadrato("Pezzo_1", Vector2(383, 150))
-	spawn_quadrato("Pezzo_2", Vector2(683, 620))
-	spawn_quadrato("Pezzo_3", Vector2(983, 150))
+	spawn_quadrato("Pezzo_1", Vector2(683, 384))
+	spawn_quadrato("Pezzo_2", Vector2(683, 384))
+	spawn_quadrato("Pezzo_3", Vector2(683, 384))
 
 func _ready():
 	super._ready()
