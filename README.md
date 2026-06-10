@@ -36,4 +36,6 @@ If you have the source files and wish to compile the binaries yourself:
 5. Click **Export Project** and select your output destination.
 
 ## License ##
-This project is open-source software licensed under the **GNU GPLv2 (GNU General Public License version 2)**. You are free to modify, distribute, and study the software in compliance with the terms of the license.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License v3 as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
