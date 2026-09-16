@@ -23,9 +23,9 @@ You don’t need to install the Godot Engine editor to play the game. Pre-compil
 1. **Download** the compiled release build folder matching your operating system (Windows, Linux, or macOS).
 2. **Extract** the zip archive content to a directory of your choice.
 3. **Launch the Executable:**
-- **Windows:** Double-click forma.exe.
-- **Linux:** Run the executable binary (e.g., ./forma.x86_64). Ensure it has executable permissions (chmod +x forma.x86_64).
-- **macOS:** Launch the exported .app bundle.
+- **Windows:** Double-click the executable file.
+- **Linux:** Run the binary. Ensure it has the right permissions (chmod +x forma.x86_64).
+- **macOS:** Launch the .app bundle (not supported yet).
 
 ## Compiling / Exporting from Source (Optional): ##
 If you have the source files and wish to compile the binaries yourself:
