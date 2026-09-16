@@ -169,7 +169,7 @@ func spawn_trapezoid(nome: String, pos: Vector2, rot: float = 0.0):
 # UI HELPERS
 # ============================================================================
 
-func add_tooltip(text: String, position: Vector2 = Vector2.ZERO):
+func add_tooltip(text: String, tooltip_position: Vector2 = Vector2.ZERO):
 	"""Add a tooltip label to the level, aligned to the right with 20px margin."""
 	var tip = Label.new()
 	tip.text = text
@@ -184,7 +184,7 @@ func add_tooltip(text: String, position: Vector2 = Vector2.ZERO):
 	var label_width = tip.get_minimum_size().x
 	var x_position = 1366 - label_width - right_margin
 	
-	var y_position = position.y if position.y != 0 else 710
+	var y_position = tooltip_position.y if tooltip_position.y != 0 else 710.0
 	
 	tip.position = Vector2(x_position, y_position)
 

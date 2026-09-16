@@ -80,7 +80,7 @@ func _process(delta):
 		var rot = wrapf(p.rotation_degrees, 0.0, 360.0)
 		var target_rot = wrapf(t["rot"], 0.0, 360.0)
 
-		if p.global_position.distance_to(t["pos"]) < 15.0 \
+		if p.global_position.distance_to(t["pos"]) < 25.0 \
 		and abs(rot - target_rot) < 5.0:
 
 			p.global_position = t["pos"]
@@ -117,7 +117,7 @@ func controlla_vittoria() -> bool:
 	for slot in slots:
 		var found = false
 		for p in active_pieces:
-			if p.global_position.distance_to(slot["pos"]) > 5.0:
+			if p.global_position.distance_to(slot["pos"]) > 15.0:
 				continue
 
 			var rot = wrapf(p.rotation_degrees, 0.0, 360.0)
