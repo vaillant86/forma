@@ -9,26 +9,22 @@ extends "res://scripts/level_template.gd"
 
 var active_pieces: Array = []
 
-var targets = [
+var slots = [
 	{
-		"node": "Pezzo_R1",
 		"pos": Vector2(533.0, 309.0),
-		"rot": 0.0
+		"verticale": false
 	},
 	{
-		"node": "Pezzo_R2",
 		"pos": Vector2(608.0, 534.0),
-		"rot": 90.0
+		"verticale": true
 	},
 	{
-		"node": "Pezzo_R3",
 		"pos": Vector2(833.0, 459.0),
-		"rot": 0.0
+		"verticale": false
 	},
 	{
-		"node": "Pezzo_R4",
 		"pos": Vector2(758.0, 234.0),
-		"rot": 90.0
+		"verticale": true
 	}
 ]
 
@@ -53,7 +49,6 @@ func setup_level():
 	spawn_rettangolo("Pezzo_R3", Vector2(1000, 200), 0)
 	spawn_rettangolo("Pezzo_R4", Vector2(1050, 500), 90)
 
-
 func _ready():
 	super._ready()
 	await get_tree().process_frame
@@ -64,83 +59,40 @@ func _ready():
 func _process(delta):
 	super._process(delta)
 
-	for t in targets:
-
-		if t["pos"] == Vector2.ZERO:
-			continue
-
-		var p = get_piece_by_name(t["node"])
-
-		if not is_instance_valid(p):
-			continue
-
-		if p.trascinamento:
-			continue
-
-		var rot = wrapf(p.rotation_degrees, 0.0, 360.0)
-		var target_rot = wrapf(t["rot"], 0.0, 360.0)
-
-		if p.global_position.distance_to(t["pos"]) < 25.0 \
-		and abs(rot - target_rot) < 5.0:
-
-			p.global_position = t["pos"]
-			p.rotation_degrees = t["rot"]
-			
 func controlla_vittoria() -> bool:
-	var slots = [
-		{
-			"pos": Vector2(533.0, 309.0),
-				"verticale": false
-		},
-		{
-			"pos": Vector2(608.0, 534.0),
-			"verticale": true
-		},
-		{
-			"pos": Vector2(833.0, 459.0),
-			"verticale": false
-		},
-		{
-			"pos": Vector2(758.0, 234.0),
-			"verticale": true
-		}
-	]
-
 	for p in active_pieces:
-
-		if not is_instance_valid(p):
+		if not is_instance_valid(p) or p.trascinamento:
 			return false
 
-		if p.trascinamento:
-			return false
+	var used_pieces: Array = []
 
 	for slot in slots:
-		var found = false
+		var found_piece = null
+		
 		for p in active_pieces:
-			if p.global_position.distance_to(slot["pos"]) > 15.0:
+			if p in used_pieces:
 				continue
 
-			var rot = wrapf(p.rotation_degrees, 0.0, 360.0)
+			if p.global_position.distance_to(slot["pos"]) > 18.0:
+				continue
 
-			var verticale = (
-				abs(rot - 90.0) < 5.0
-				or abs(rot - 270.0) < 5.0
-			)
+			var rot = fmod(abs(p.rotation_degrees), 180.0)
+			if rot > 90.0:
+				rot = 180.0 - rot
 
-			var orizzontale = (
-				abs(rot - 0.0) < 5.0
-				or abs(rot - 180.0) < 5.0
-			)
+			var is_horizontal = rot < 6.0
+			var is_vertical = abs(rot - 90.0) < 6.0
 
-			if slot["verticale"] and verticale:
-				found = true
+			if slot["verticale"] and is_vertical:
+				found_piece = p
+				break
+			elif not slot["verticale"] and is_horizontal:
+				found_piece = p
 				break
 
-			if not slot["verticale"] and orizzontale:
-				found = true
-				break
-
-		if not found:
+		if found_piece != null:
+			used_pieces.append(found_piece)
+		else:
 			return false
 
-	return true
+	return used_pieces.size() == slots.size()
