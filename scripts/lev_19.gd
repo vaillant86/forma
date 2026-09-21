@@ -29,7 +29,9 @@ func setup_level():
 	var p2 = spawn_rettangolo("Pezzo_R2", Vector2(150, 480), 90)
 	var p3 = spawn_quadrato("Pezzo_Q1", Vector2(1100, 200))
 	var p4 = spawn_quadrato("Pezzo_Q2", Vector2(1100, 480))
-	
+
+	p1.set_meta("invisible_piece", true)
+	p1.set_meta("revealed", false)
 	p2.set_meta("invisible_piece", true)
 	p2.set_meta("revealed", false)
 	p3.set_meta("invisible_piece", true)
