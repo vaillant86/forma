@@ -15,12 +15,15 @@ func _on_btn_nuova_partita_pressed():
 	SaveManager.save_data["livello_sbloccato"] = 1
 	SaveManager.current_level = 1
 	SaveManager.save_game()
-	get_tree().change_scene_to_file("res://lev_1.tscn")
+	get_tree().change_scene_to_file("res://levels/lev_01.tscn")
 
 func _on_btn_continua_pressed():
-	var path = "res://lev_" + str(SaveManager.current_level) + ".tscn"
+	var level_str = "%02d" % SaveManager.current_level
+	var path = "res://levels/lev_" + level_str + ".tscn"
 	if ResourceLoader.exists(path):
 		get_tree().change_scene_to_file(path)
+	else:
+		push_error("Impossibile trovare la scena al percorso: " + path)
 
 func _on_btn_esci_pressed():
 	get_tree().quit()

@@ -148,7 +148,7 @@ func gestisci_vittoria():
 
 func _on_btn_prossimo_livello_pressed():
 	var prossimo = _get_level_number() + 1
-	var path = "res://lev_" + str(prossimo) + ".tscn"
+	var path = "res://levels/lev_" + str(prossimo) + ".tscn"
 	if ResourceLoader.exists(path):
 		get_tree().change_scene_to_file(path)
 	else:
