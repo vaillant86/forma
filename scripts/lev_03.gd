@@ -26,7 +26,7 @@ func setup_level():
 		Vector2(400, 300)
 	]))
 	
-	var sq = preload("res://square.tscn").instantiate()
+	var sq = preload("res://piece.tscn").instantiate()
 	sq.name = "Pezzo_Base"
 	sq.position = Vector2(150, 450)
 	sq.modulate = Color.MEDIUM_SLATE_BLUE

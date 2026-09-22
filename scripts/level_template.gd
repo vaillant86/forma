@@ -108,7 +108,7 @@ func _calculate_polygon_centroid(polygon: PackedVector2Array) -> Vector2:
 
 func spawn_quadrato(nome: String, pos: Vector2, rot: float = 0.0):
 	"""Spawn a square piece."""
-	var p = preload("res://square.tscn").instantiate()
+	var p = preload("res://piece.tscn").instantiate()
 	p.name = nome
 	p.position = pos
 	p.rotation_degrees = rot
