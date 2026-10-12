@@ -35,7 +35,6 @@ If you have the source files and wish to compile the binaries yourself:
 4. Choose your target platform preset (Windows, Linux, macOS).
 5. Click **Export Project** and select your output destination.
 
-## License ##
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License v3 as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public License for more details.
+## License: ##
 
-You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
+This project is licensed under the GNU AGPLv3 License - see the [LICENSE](LICENSE) file for details.
